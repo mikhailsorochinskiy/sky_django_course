@@ -1,0 +1,44 @@
+[
+{
+    "model": "catalog.category",
+    "pk": 1,
+    "fields": {
+        "name": "Телевизоры",
+        "description": "Телевизоры со смарт-тв"
+    }
+},
+{
+    "model": "catalog.category",
+    "pk": 2,
+    "fields": {
+        "name": "Смартфоны",
+        "description": "Смартфоны разного сегмента"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 1,
+    "fields": {
+        "name": "LG",
+        "description": "Размер более 100 дюймов",
+        "image": "",
+        "category": 1,
+        "price": 100000,
+        "created_at": "2025-05-04T18:27:56.086Z",
+        "updated_at": "2025-05-04T18:27:56.086Z"
+    }
+},
+{
+    "model": "catalog.product",
+    "pk": 2,
+    "fields": {
+        "name": "Samsung",
+        "description": "Размер более 120 дюймов",
+        "image": "",
+        "category": 1,
+        "price": 120000,
+        "created_at": "2025-05-04T18:28:22.347Z",
+        "updated_at": "2025-05-04T18:28:22.347Z"
+    }
+}
+]
