@@ -4,7 +4,7 @@
 {% block title %}Главная страница{% endblock %}
 
 {% block content %}
-{% include 'catalog/header.html'%}
+{% include 'catalog/header_home.html'%}
 <div class="container">
     <div class="row text-center">
         {% for product in products %}
@@ -12,14 +12,13 @@
             <div class="card mb-4 box-shadow">
 
                     <div class="card-header">
-                        <h4 class="my-0 font-weight-normal">{{product.name}}</h4>
+                        <h4 class="my-0 font-weight-normal"><a href="{% url 'catalog:product_detail' product.pk%}">{{product.name}}</a></h4>
                     </div>
                     <div class="card-body">
                         <ul class="list-unstyled mt-3 mb-4 text-start m-3">
                             <li>- {{product.description|truncatechars:100}}</li>
-                            <li><img src="{{ product.photo.url }}" alt="{{ product.name }}"></li>
+                            <li><img src="{{ product.image.url }}" alt="{{ product.name }}"></li>
                         </ul>
-                        <a class="btn btn-lg btn-block btn-outline-primary" href="{% url 'catalog:product_detail' product.pk%}" role="button">Купить</a>
                     </div>
             </div>
         </div>
