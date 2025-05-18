@@ -1,9 +1,12 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from .models import Product
 
 
 def home(request):
-    return render(request, 'catalog/home.html')
+    products = Product.objects.all()
+    context = {'products': products}
+    return render(request, 'catalog/home.html', context)
 
 
 def contacts(request):
@@ -15,3 +18,9 @@ def contacts(request):
         # Здесь мы просто возвращаем простой ответ
         return HttpResponse(f"Спасибо, {name}! Ваше сообщение получено.")
     return render(request, 'catalog/contacts.html')
+
+
+def product_detail(request, product_id):
+    product = Product.objects.get(id=product_id)
+    context = {'product': product}
+    return render(request, 'catalog/product_detail.html', context)
