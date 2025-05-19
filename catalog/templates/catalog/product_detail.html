@@ -9,6 +9,6 @@
         <p>Описание: {{ product.description }}</p>
         <p>Цена: {{ product.price}} руб.</p>
         <p>Дата появления в продаже: {{ product.created_at|date:"d M Y"}}</p>
-        <p>Фото: <img src="{{ product.photo.url }}" alt="{{ product.name }}"></p>
+        <p>Фото: <img src="{{ product.image.url }}" alt="{{ product.name }}"></p>
     </div>
 {% endblock %}
