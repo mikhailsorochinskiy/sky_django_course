@@ -1,0 +1,17 @@
+{% extends 'blog/base.html' %}
+
+{% block title %}Лента{% endblock %}
+
+{% block content %}
+<div class="card" style="width: 18rem;">
+  <img src="{{ blog_review.photo.url }}" class="card-img-top" alt="{{ blog_review.title }}">
+  <div class="card-body">
+    <h5 class="card-title">{{ blog_review.title }}</h5>
+    <p class="card-text">{{ blog_review.description }}</p>
+    <p class="card-text">Дата публикации: {{ blog_review.created_at }}</p>
+    <p class="card-text">Количество просмотров: {{ blog_review.see_counter }}</p>
+    <a href="{% url 'blog:blog_review_update' blog_review.pk %}" class="btn btn-primary">Изменить</a>
+    <a href="{% url 'blog:blog_review_confirm_delete' blog_review.pk %}" class="btn btn-danger">Удалить</a>
+  </div>
+</div>
+{% endblock %}
