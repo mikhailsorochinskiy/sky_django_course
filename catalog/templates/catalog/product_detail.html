@@ -10,5 +10,7 @@
         <p>Цена: {{ product.price}} руб.</p>
         <p>Дата появления в продаже: {{ product.created_at|date:"d M Y"}}</p>
         <p>Фото: <img src="{{ product.image.url }}" alt="{{ product.name }}"></p>
+        <a href="{% url 'catalog:product_update' product.pk %}" class="btn btn-primary">Изменить</a>
+        <a href="{% url 'catalog:product_delete' product.pk %}" class="btn btn-danger">Удалить</a>
     </div>
 {% endblock %}
