@@ -3,7 +3,7 @@ from django.contrib.auth.models import AbstractUser
 
 # Create your models here.
 class User(AbstractUser):
-    username = None
+    username = models.CharField(max_length=150, blank=True, null=True)
     email = models.EmailField(unique=True, verbose_name='Email')
     phone_number = models.CharField(max_length=15, blank=True, null=True, help_text='Введите номер телефона', verbose_name='Телефон')
     avatar = models.ImageField(upload_to='avatars', blank=True, null=True, verbose_name="Аватар",
@@ -11,7 +11,7 @@ class User(AbstractUser):
     country = models.CharField(max_length=50, blank=True, null=True, help_text='Ваша страна', verbose_name='Страна')
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = []
+    REQUIRED_FIELDS = ['username']
 
     class Meta:
         verbose_name = 'Пользователь'
