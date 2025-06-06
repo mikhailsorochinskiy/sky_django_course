@@ -7,6 +7,7 @@
 {% include 'catalog/header_home.html'%}
 <div class="container">
     <div class="row text-center">
+        {% if perms.product.can_unpublish_product %}
         {% for product in products %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
@@ -23,6 +24,26 @@
             </div>
         </div>
         {% endfor%}
+        {% else %}
+        {% for product in products %}
+        {% if product.is_active %}
+        <div class="col-3">
+            <div class="card mb-4 box-shadow">
+
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal"><a href="{% url 'catalog:product_detail' product.pk%}">{{product.name}}</a></h4>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-unstyled mt-3 mb-4 text-start m-3">
+                            <li>- {{product.description|truncatechars:100}}</li>
+                            <li><img src="{{ product.image.url }}" alt="{{ product.name }}"></li>
+                        </ul>
+                    </div>
+            </div>
+        </div>
+        {% endif %}
+        {% endfor%}
+        {% endif %}
     </div>
 </div>
 {% endblock %}
