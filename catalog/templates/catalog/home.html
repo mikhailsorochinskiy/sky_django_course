@@ -7,7 +7,7 @@
 {% include 'catalog/header_home.html'%}
 <div class="container">
     <div class="row text-center">
-        {% if perms.product.can_unpublish_product %}
+        {% if perms.catalog.can_unpublish_product %}
         {% for product in products %}
         <div class="col-3">
             <div class="card mb-4 box-shadow">
