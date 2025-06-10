@@ -1,10 +1,13 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+from django.core.exceptions import PermissionDenied
 from .models import Product
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
-from .forms import ProductForm
+from .forms import ProductForm, ProductModeratorForm
 from django.urls import reverse_lazy
-from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.utils.decorators import method_decorator
+from django.contrib.auth.decorators import permission_required
 
 
 class ProductsListView(ListView):
@@ -25,6 +28,10 @@ class ProductCreateView(LoginRequiredMixin, CreateView):
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:home')
 
+    def form_valid(self, form):
+        form.instance.owner = self.request.user
+        return super().form_valid(form)
+
 
 class ProductUpdateView(LoginRequiredMixin, UpdateView):
     model = Product
@@ -32,12 +39,25 @@ class ProductUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'catalog/product_form.html'
     success_url = reverse_lazy('catalog:home')
 
+    def get_form_class(self):
+        user = self.request.user
+        if user == self.object.owner:
+            return ProductForm
+        if user.has_perm('catalog.can_unpublish_product') and user.has_perm('catalog.delete_product'):
+            return ProductModeratorForm
+        raise PermissionDenied
 
-class ProductDeleteView(LoginRequiredMixin, DeleteView):
+
+class ProductDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
     model = Product
     template_name = 'catalog/product_delete.html'
     success_url = reverse_lazy('catalog:home')
     context_object_name = 'product'
+
+    def test_func(self):
+        product = self.get_object()
+        return self.request.user == product.owner or self.request.user.groups.filter(
+            name='Moderators').exists()
 
 
 class ContactsTemplateView(TemplateView):
