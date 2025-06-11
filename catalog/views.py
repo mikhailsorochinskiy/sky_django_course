@@ -1,7 +1,8 @@
 from django.shortcuts import render
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.core.exceptions import PermissionDenied
-from .models import Product
+from .models import Product, Category
+from .services import get_products_by_category
 from django.views.generic import ListView, DetailView, TemplateView, CreateView, UpdateView, DeleteView
 from .forms import ProductForm, ProductModeratorForm
 from django.urls import reverse_lazy
@@ -14,6 +15,20 @@ class ProductsListView(ListView):
     model = Product
     template_name = 'catalog/home.html'
     context_object_name = 'products'
+
+
+class ProductsByCategoryView(ListView):
+    template_name = 'catalog/products_category.html'
+    context_object_name = 'products'
+
+    def get_queryset(self):
+        category = self.kwargs.get('category_id')
+        return get_products_by_category(category)
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['category'] = Category.objects.get(id=self.kwargs.get('category_id'))
+        return context
 
 
 class ProductDetailView(LoginRequiredMixin, DetailView):
