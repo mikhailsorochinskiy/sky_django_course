@@ -152,7 +152,7 @@ EMAIL_HOST_PASSWORD = 'qnqlsqvkjmbkuspx'
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
-CACHE_ENABLED = False
+CACHE_ENABLED = True
 if CACHE_ENABLED:
     CACHES = {
         'default': {
